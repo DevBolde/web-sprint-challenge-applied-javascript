@@ -1,3 +1,4 @@
+import axios from "axios"
 const Card = (article) => {
   // TASK 5
   // ---------------------
@@ -17,7 +18,49 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+  const cardCreator = (text) =>{
+    const headline = document.createElement('div')
+    const author = document.createElement('div')
+    const imgContainer = document.createElement('div')
+    const img = document.createElement('img')
+    const authorSpan = document.createElement('span')
+    
+    headline.classList.add('headline')
+    author.classList.add('author')
+    imgContainer.classList.add('img-container')
+    
+    headline.textContent = text.headline;
+    img.src = text.authorPhoto;
+    authorSpan.textContent = `By ${text.authorName}`;
+    
+    
+    headline.appendChild(author);
+    headline.appendChild(imgContainer);
+    headline.appendChild(img);
+    imgContainer.appendChild(authorSpan);
+    
+    return headline;
+  }
+  const cardWrapper = document.createElement('div')
+  cardWrapper.classList.add('card')
+
+  cardWrapper.addEventListener('click', () =>{
+    console.log(article.headline)
+  })
+
+  for(let i = 0; i < article.length; i++){
+    let card = cardCreator(article[i])
+    cardWrapper.appendChild(card)
+  }
+  
+return cardWrapper;
 }
+const article = {
+  headline: 'nani',
+  authorPhoto: 'https://www.google.com/search?q=image&rlz=1C1VDKB_enUS1004US1004&oq=image&aqs=chrome..69i57j0i433i512j0i131i433i512l2j0i433i512j0i131i433i512l2j69i60.493j0j7&sourceid=chrome&ie=UTF-8#imgrc=L2hxXuK7NBWJmM',
+  authorName: "Monkey D. Luffy"
+}
+console.log(Card(article))
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -28,6 +71,17 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+  const cssSelector = document.querySelector(selector)
+
+  axios.get(`http://localhost:5001/api/articles`)
+.then(response => {
+  cssSelector.appendChild(Card(response.data))
+  console.log(response)
+})
+.catch(err => {
+  console.log('u failed')
+})
+return cssSelector
 }
 
 export { Card, cardAppender }
