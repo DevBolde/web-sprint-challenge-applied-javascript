@@ -24,6 +24,7 @@ const tabCreator = (text) =>{
 }
 
   const topicsWrapper = document.createElement('div')
+  topicsWrapper.classList.add('topics')
   
 for(let i = 0; i < topics.length; i++){
   let tab = tabCreator(topics[i])
@@ -50,7 +51,7 @@ axios.get(`http://localhost:5001/api/topics`)
   cssSelector.appendChild(Tabs(response.data.topics))
 })
 .catch(err => {
-  console.log('u failed')
+  console.log(err)
 })
 return cssSelector;
 }

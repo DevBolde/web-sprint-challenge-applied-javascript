@@ -39,7 +39,7 @@ const headerAppender = (selector) => {
   //
 // const cssSelector = document.querySelector(selector);
 const cssSelector = document.querySelector(selector)
-cssSelector.appendChild(Header("Chef Curry cooks opponent... a nice meal?", "January 18, 2022", "45*"))
+cssSelector.appendChild(Header("'Chef' Curry cooks opponent... a nice meal?", "January 18, 2022", "45*"))
   // cssSelector.appendChild(Header("Monkey's run RAMPANT!", "1-18-22", "45*"))
 
   // HINT: querySelector can take in a string (ie querySelector("#wrapper")) 

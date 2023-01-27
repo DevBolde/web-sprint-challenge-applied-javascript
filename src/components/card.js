@@ -19,12 +19,15 @@ const Card = (article) => {
   // </div>
   //
   const cardCreator = (text) =>{
+    const cardWrapper = document.createElement('div')
     const headline = document.createElement('div')
     const author = document.createElement('div')
     const imgContainer = document.createElement('div')
     const img = document.createElement('img')
     const authorSpan = document.createElement('span')
     
+
+    cardWrapper.classList.add('card')
     headline.classList.add('headline')
     author.classList.add('author')
     imgContainer.classList.add('img-container')
@@ -33,34 +36,31 @@ const Card = (article) => {
     img.src = text.authorPhoto;
     authorSpan.textContent = `By ${text.authorName}`;
     
-    
-    headline.appendChild(author);
-    headline.appendChild(imgContainer);
-    headline.appendChild(img);
-    imgContainer.appendChild(authorSpan);
-    
-    return headline;
-  }
-  const cardWrapper = document.createElement('div')
-  cardWrapper.classList.add('card')
+    cardWrapper.appendChild(headline)
+    cardWrapper.appendChild(author);
+    author.appendChild(imgContainer);
+    imgContainer.appendChild(img);
+    author.appendChild(authorSpan);
 
-  cardWrapper.addEventListener('click', () =>{
-    console.log(article.headline)
+    cardWrapper.addEventListener('click', () =>{
+    console.log(`${text.headline}`)
   })
 
-  for(let i = 0; i < article.length; i++){
-    let card = cardCreator(article[i])
-    cardWrapper.appendChild(card)
+  // for(let i = 0; i < text.length; i++){
+  //   let card = Card(text[i])
+    
+  // }
+
+    return cardWrapper;
   }
-  
-return cardWrapper;
+ 
+return cardCreator(article);
 }
-const article = {
-  headline: 'nani',
-  authorPhoto: 'https://www.google.com/search?q=image&rlz=1C1VDKB_enUS1004US1004&oq=image&aqs=chrome..69i57j0i433i512j0i131i433i512l2j0i433i512j0i131i433i512l2j69i60.493j0j7&sourceid=chrome&ie=UTF-8#imgrc=L2hxXuK7NBWJmM',
-  authorName: "Monkey D. Luffy"
-}
-console.log(Card(article))
+
+
+
+
+
 
 const cardAppender = (selector) => {
   // TASK 6
@@ -75,12 +75,23 @@ const cardAppender = (selector) => {
 
   axios.get(`http://localhost:5001/api/articles`)
 .then(response => {
-  cssSelector.appendChild(Card(response.data))
-  console.log(response)
+ 
+  const articlesArray = Object.keys(response.data.articles) //arary of keys inside articles
+  // console.log('articlesArray', articlesArray)
+
+  articlesArray.forEach(function(element){
+    response.data.articles[element].forEach(ele => {
+      cssSelector.appendChild(Card(ele))
+    })
+    
+  })
+ 
+  
 })
 .catch(err => {
-  console.log('u failed')
+  console.log('Something went wrong', err)
 })
+
 return cssSelector
 }
 
